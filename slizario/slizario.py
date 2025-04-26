@@ -29,30 +29,46 @@ class Player(GameSprite):
         self.rect.y += self.speed_y
         self.rect.x += self.speed_x
         
+class Tail(GameSprite):
+    def __init__(self, player_image, player_x, player_y, player_width, player_height, player_speed):
+        super().__init__(player_image, player_x, player_y, player_width, player_height, player_speed)
+        self.speed_x = self.speed
+        self.speed_y = 0
 
-
-main_player = Player("New Piskel (2).png", 300, 400, 70, 70, 25)
+main_player = Player("New Piskel (2).png", 300, 400, 70, 70, 30)
  
+prize = GameSprite("New Piskel (1).png", randint(80, 635), 100, 100, 100, randint(16, 23)*30)
+
+tails = sprite.Group()
+
+
 
 
 game = True
 finish = False
 
 
-
+score = 0
 
 wait = 0
 while game:
     if finish != True:
-        window.blit(background,(0, 0))
-        main_player.update()
-        main_player.reset()
-    if wait == 0:
-        window.blit(background,(0, 0))
-        main_player.update()
-        main_player.reset()
-        wait = 30   
-    wait -= 1
+        
+        if wait == 0:
+            window.blit(background,(0, 0))
+            main_player.update()
+            main_player.reset()
+            prize.update()
+            prize.reset()
+            tail.update()
+            tail = ("New Piskel", player.rect.x-player.speed_x, player.rect.y-player.speed_y)
+                tails.add(tail)
+            if player.colliderect(prize):
+                score += 1
+                prize.rect.x = randint(0, 23)*30
+                prize.rect.y = randint(0, 16)*16
+            wait = 30   
+        wait -= 1
     keys = key.get_pressed()
     if keys[K_LEFT]:
         main_player.speed_x = -main_player.speed
@@ -64,7 +80,7 @@ while game:
         main_player.speed_y = -main_player.speed
         main_player.speed_x = 0
     if keys[K_DOWN]:
-        main_player.speed_y = -main_player.speed
+        main_player.speed_y = main_player.speed
         main_player.speed_x = 0
     for e in event.get():
         if e.type == QUIT:
