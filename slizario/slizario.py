@@ -68,14 +68,14 @@ while game:
             main_player.reset()
             prize.update()
             prize.reset()
-            tail = Tail("New Piskel.png", main_player.rect.x - main_player.speed_x, main_player.rect.y - main_player.speed_y, 69, 69, 30, score)
+            tail = Tail("New Piskel.png", main_player.rect.x - main_player.speed_x, main_player.rect.y - main_player.speed_y, 29, 29, 0, score)
             tails.add(tail)
             tails.update()
             tails.draw(window)
             if main_player.colliderect(prize):
                 score += 1
                 prize.rect.x = randint(0, 23)*30
-                prize.rect.y = randint(0, 16)*30
+                prize.rect.y = randint(0, 16.5)*30
             if sprite.spritecollide(main_player, tails, True):
                 finish = True
             wait = 30   
